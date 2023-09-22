@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class MySensorPage extends StatefulWidget {
   const MySensorPage({Key? key});
 
@@ -155,8 +154,8 @@ class _MySensorPageState extends State<MySensorPage> {
 
   Widget buildSensorCard(String title, double value, String unit) {
     return Container(
-      width: double.infinity,
-      margin: EdgeInsets.all(20.0),
+      width: 300.0,
+      margin: EdgeInsets.all(30.0),
       decoration: BoxDecoration(
         color: Colors.teal,
         borderRadius: BorderRadius.circular(15.0),
@@ -182,6 +181,14 @@ class _MySensorPageState extends State<MySensorPage> {
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Tambahkan aksi yang ingin Anda lakukan ketika tombol ditekan
+                // Misalnya, buka halaman grafik.
+              },
+              child: Text('Lihat Grafik'),
             ),
           ],
         ),
