@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:monitoringapp/LihatGrafikPage.dart';
 
 import 'firebase_options.dart';
 
@@ -190,14 +191,17 @@ class _MySensorPageState extends State<MySensorPage> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Tambahkan aksi yang ingin Anda lakukan ketika tombol ditekan
-                // Misalnya, buka halaman grafik.
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LihatGrafikPage(), // Pindahkan ke halaman "Lihat Grafik"
+                  ),
+                );
               },
               child: Text('Lihat Grafik'),
             ),
+
           ],
         ),
       ),
