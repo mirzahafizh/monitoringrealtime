@@ -140,6 +140,14 @@ class _MySensorPageState extends State<MySensorPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              SizedBox(height: 30.0), // Tambahkan jarak di sini
+              Text(
+              'IPPL SELALU DIHATI ❤️', // Tambahkan judul "IPPL" di sini
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
               buildSensorCard('Sensor Suhu Air', sensorValue, '°C'),
               buildSensorCard('Kekeruhan Air', turbidityValue, 'NTU'),
               buildSensorCard('Kadar Air', pHValue, 'pH'),
@@ -155,7 +163,7 @@ class _MySensorPageState extends State<MySensorPage> {
   Widget buildSensorCard(String title, double value, String unit) {
     return Container(
       width: 300.0,
-      margin: EdgeInsets.all(30.0),
+      margin: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.teal,
         borderRadius: BorderRadius.circular(15.0),
