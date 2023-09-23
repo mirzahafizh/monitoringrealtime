@@ -2,12 +2,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LihatGrafikPage extends StatelessWidget {
+class LihatGrafikKadarAir extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lihat Grafik Suhu Air'),
+        title: Text('Lihat Grafik Kadar Air'),
       ),
       body: RealtimeChart(), // Gunakan widget RealtimeChart untuk menampilkan grafik
     );
@@ -26,7 +26,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/suhu_air/value');
+    _sensorRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/kadar_air/value');
 
     // Tambahkan listener untuk memantau perubahan nilai sensor di Firebase
     _sensorRef.onValue.listen((event) {

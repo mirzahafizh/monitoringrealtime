@@ -1,7 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:monitoringapp/LihatGrafikKadarAir.dart';
+import 'package:monitoringapp/LihatGrafikKekeruhan.dart';
 import 'package:monitoringapp/LihatGrafikPage.dart';
+import 'package:monitoringapp/LihatGrafikTdsAir.dart';
+import 'package:monitoringapp/LihatGrafikTinggiAir.dart';
 
 import 'firebase_options.dart';
 
@@ -149,11 +153,12 @@ class _MySensorPageState extends State<MySensorPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-              buildSensorCard('Sensor Suhu Air', sensorValue, '°C'),
-              buildSensorCard('Kekeruhan Air', turbidityValue, 'NTU'),
-              buildSensorCard('Kadar Air', pHValue, 'pH'),
-              buildSensorCard('Tinggi Air', waterLevelValue, 'cm'),
-              buildSensorCard('TDS Air', tdsValue, 'ppm'),
+              buildSensorCard('Sensor Suhu Air', sensorValue, '°C', 'suhu_air'),
+              buildSensorCard('Kekeruhan Air', turbidityValue, 'ntu', 'kekeruhan_air'),
+              buildSensorCard('Kadar Air', pHValue, 'pH', 'kadar_air'),
+              buildSensorCard('Tinggi Air', waterLevelValue, 'cm', 'tinggi_air'),
+              buildSensorCard('TDS Air', tdsValue, 'ppm', 'tds_air'),
+
             ],
           ),
         ),
@@ -161,50 +166,75 @@ class _MySensorPageState extends State<MySensorPage> {
     );
   }
 
-  Widget buildSensorCard(String title, double value, String unit) {
-    return Container(
-      width: 300.0,
-      margin: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.teal,
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+  Widget buildSensorCard(String title, double value, String unit, String sensorType) {
+  return Container(
+    width: 300.0,
+    margin: EdgeInsets.all(20.0),
+    decoration: BoxDecoration(
+      color: Colors.teal,
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    child: Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            SizedBox(height: 20),
-            Text(
-              '${value.toStringAsFixed(1)} $unit',
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            '${value.toStringAsFixed(1)} $unit',
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            ElevatedButton(
-              onPressed: () {
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (sensorType == 'suhu_air') {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => LihatGrafikPage(), // Pindahkan ke halaman "Lihat Grafik"
+                    builder: (context) => LihatGrafikPage(),
                   ),
                 );
-              },
-              child: Text('Lihat Grafik'),
-            ),
-
-          ],
-        ),
+              } else if (sensorType == 'kekeruhan_air') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LihatGrafikKekeruhan(),
+                  ),
+                );
+              } else if (sensorType == 'kadar_air') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LihatGrafikKadarAir(),
+                  ),
+                );
+              } else if (sensorType == 'tinggi_air') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LihatGrafikTinggiAir(),
+                  ),
+                );
+              } else if (sensorType == 'tds_air') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LihatGrafikTdsAir(),
+                  ),
+                );
+              }
+            },
+            child: Text('Lihat Grafik'),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
