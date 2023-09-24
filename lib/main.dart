@@ -147,17 +147,17 @@ class _MySensorPageState extends State<MySensorPage> {
             children: <Widget>[
               SizedBox(height: 30.0), // Tambahkan jarak di sini
               Text(
-              'IPPL SELALU DIHATI ❤️', // Tambahkan judul "IPPL" di sini
+              'MONITORING SENSOR REALTIME', // Tambahkan judul "IPPL" di sini
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-              buildSensorCard('Sensor Suhu Air', sensorValue, '°C', 'suhu_air'),
-              buildSensorCard('Kekeruhan Air', turbidityValue, 'ntu', 'kekeruhan_air'),
-              buildSensorCard('Kadar Air', pHValue, 'pH', 'kadar_air'),
-              buildSensorCard('Tinggi Air', waterLevelValue, 'cm', 'tinggi_air'),
-              buildSensorCard('TDS Air', tdsValue, 'ppm', 'tds_air'),
+              buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air'),
+              buildSensorCard('KEKERUHAN AIR', turbidityValue, 'ntu', 'kekeruhan_air'),
+              buildSensorCard('KADAR AIR', pHValue, 'pH', 'kadar_air'),
+              buildSensorCard('TINGGI AIR', waterLevelValue, 'cm', 'tinggi_air'),
+              buildSensorCard('TDS AIR', tdsValue, 'ppm', 'tds_air'),
 
             ],
           ),
@@ -173,6 +173,18 @@ class _MySensorPageState extends State<MySensorPage> {
     decoration: BoxDecoration(
       color: Colors.teal,
       borderRadius: BorderRadius.circular(15.0),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 7,
+          offset: Offset(0, 3),
+        ),
+      ],
+            border: Border.all(
+        color: Colors.yellow, // Warna border card
+        width: 2.0, // Lebar border
+      ),
     ),
     child: Padding(
       padding: EdgeInsets.all(20.0),
@@ -183,7 +195,8 @@ class _MySensorPageState extends State<MySensorPage> {
             title,
             style: TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Roboto', // Menambahkan fontFamily 'Roboto'
               color: Colors.white,
             ),
           ),
@@ -193,6 +206,7 @@ class _MySensorPageState extends State<MySensorPage> {
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.bold,
+              fontFamily: 'AveriaSansLibre', // Menambahkan fontFamily 'Roboto'
               color: Colors.white,
             ),
           ),
@@ -230,7 +244,15 @@ class _MySensorPageState extends State<MySensorPage> {
                 );
               }
             },
-            child: Text('Lihat Grafik'),
+              style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 236, 245, 67), // Warna latar belakang tombol
+              onPrimary: Colors.black, // Warna teks pada tombol
+              side: BorderSide(
+                color: Colors.black, // Warna border tombol
+                width: 2.0, // Lebar border tombol
+              ),
+            ),
+            child: Text('LIHAT GRAFIK'),
           ),
         ],
       ),
