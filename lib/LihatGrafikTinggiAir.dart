@@ -22,6 +22,7 @@ class LihatGrafikTinggiAir extends StatelessWidget {
     );
   }
 }
+
 class RealtimeChart extends StatefulWidget {
   @override
   _RealtimeChartState createState() => _RealtimeChartState();
@@ -50,36 +51,69 @@ class _RealtimeChartState extends State<RealtimeChart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.5, // Sesuaikan perbandingan aspek sesuai dengan kebutuhan
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(show: false),
-          titlesData: FlTitlesData(show: false),
-          borderData: FlBorderData(
-            show: true,
-            border: Border.all(
-              color: const Color(0xff37434d),
-              width: 1,
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: 1.5, // Sesuaikan perbandingan aspek sesuai dengan kebutuhan
+          child: LineChart(
+            LineChartData(
+              gridData: FlGridData(show: false),
+              titlesData: FlTitlesData(show: false),
+              borderData: FlBorderData(
+                show: true,
+                border: Border.all(
+                  color: const Color(0xff37434d),
+                  width: 1,
+                ),
+              ),
+              minX: 0,
+              maxX: sensorData.length.toDouble() - 1,
+              minY: 0, // Tetapkan tinggi minimum garis grafik di sini
+              maxY: sensorData.reduce((a, b) => a > b ? a : b) + 10, // Sesuaikan dengan skala grafik
+              lineBarsData: [
+                LineChartBarData(
+                  spots: sensorData.asMap().entries.map((entry) {
+                    return FlSpot(entry.key.toDouble(), entry.value);
+                  }).toList(),
+                  isCurved: true,
+                  colors: [Colors.blue], // Warna garis grafik
+                  dotData: FlDotData(show: false),
+                  belowBarData: BarAreaData(show: false),
+                ),
+              ],
             ),
           ),
-          minX: 0,
-          maxX: sensorData.length.toDouble() - 1,
-          minY: 0, // Tetapkan tinggi minimum garis grafik di sini
-          maxY: sensorData.reduce((a, b) => a > b ? a : b) + 10, // Sesuaikan dengan skala grafik
-          lineBarsData: [
-            LineChartBarData(
-              spots: sensorData.asMap().entries.map((entry) {
-                return FlSpot(entry.key.toDouble(), entry.value);
-              }).toList(),
-              isCurved: true,
-              colors: [Colors.blue], // Warna garis grafik
-              dotData: FlDotData(show: false),
-              belowBarData: BarAreaData(show: false),
-            ),
-          ],
         ),
-      ),
+        Card(
+          elevation: 4.0,
+          margin: EdgeInsets.all(16.0),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(
+                  'Realtime Tinggi Air',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 200, // Atur tinggi kontainer tabel sesuai kebutuhan
+                  child: ListView.builder(
+                    itemCount: sensorData.length > 5 ? 5 : sensorData.length,
+                    itemBuilder: (context, index) {
+                      final reversedIndex = sensorData.length - index - 1;
+                      return ListTile(
+                        title: Text('Data Ke-${reversedIndex + 1}'),
+                        subtitle: Text('Tinggi Air: ${sensorData[reversedIndex]}'),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
