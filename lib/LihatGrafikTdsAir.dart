@@ -7,7 +7,17 @@ class LihatGrafikTdsAir extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lihat Grafik TDS Air'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.navigate_before_rounded,
+              color: Colors.white,
+            )),
+        backgroundColor: Color(0xff142870),
+        title: Text('Grafik TDS Air',
+            style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -15,7 +25,8 @@ class LihatGrafikTdsAir extends StatelessWidget {
           elevation: 4.0,
           child: Padding(
             padding: EdgeInsets.all(16.0),
-            child: RealtimeChart(), // Gunakan widget RealtimeChart untuk menampilkan grafik
+            child:
+                RealtimeChart(), // Gunakan widget RealtimeChart untuk menampilkan grafik
           ),
         ),
       ),
@@ -29,13 +40,17 @@ class RealtimeChart extends StatefulWidget {
 }
 
 class _RealtimeChartState extends State<RealtimeChart> {
-  List<double> sensorData = [0.0]; // Data awal // Data sensor yang akan digunakan untuk membuat grafik
+  List<double> sensorData = [
+    0.0
+  ]; // Data awal // Data sensor yang akan digunakan untuk membuat grafik
   late DatabaseReference _sensorRef;
 
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/tds_air/value');
+    _sensorRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/tds_air/value');
 
     // Tambahkan listener untuk memantau perubahan nilai sensor di Firebase
     _sensorRef.onValue.listen((event) {
@@ -54,7 +69,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
     return Column(
       children: [
         AspectRatio(
-          aspectRatio: 1.5, // Sesuaikan perbandingan aspek sesuai dengan kebutuhan
+          aspectRatio:
+              1.5, // Sesuaikan perbandingan aspek sesuai dengan kebutuhan
           child: LineChart(
             LineChartData(
               gridData: FlGridData(show: false),
@@ -69,7 +85,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
               minX: 0,
               maxX: sensorData.length.toDouble() - 1,
               minY: 0, // Tetapkan tinggi minimum garis grafik di sini
-              maxY: sensorData.reduce((a, b) => a > b ? a : b) + 10, // Sesuaikan dengan skala grafik
+              maxY: sensorData.reduce((a, b) => a > b ? a : b) +
+                  10, // Sesuaikan dengan skala grafik
               lineBarsData: [
                 LineChartBarData(
                   spots: sensorData.asMap().entries.map((entry) {
@@ -104,7 +121,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
                       final reversedIndex = sensorData.length - index - 1;
                       return ListTile(
                         title: Text('Data Ke-${reversedIndex + 1}'),
-                        subtitle: Text('Tinggi Air: ${sensorData[reversedIndex]}'),
+                        subtitle:
+                            Text('Tinggi Air: ${sensorData[reversedIndex]}'),
                       );
                     },
                   ),
