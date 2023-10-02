@@ -21,17 +21,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define your primary color
-    MaterialColor myPrimaryColor = MaterialColor(0xFF00FDA4, {
-      50: Color(0xFFE0FFF1),
-      100: Color(0xFFB3FFDE),
-      200: Color(0xFF80FFC8),
-      300: Color(0xFF4DFFB1),
-      400: Color(0xFF26FFA0),
-      500: Color(0xFF00FDA4), // Primary color
-      600: Color(0xFF00DB94),
-      700: Color(0xFF00B982),
-      800: Color(0xFF009770),
-      900: Color(0xFF006B5E),
+    MaterialColor myPrimaryColor = const MaterialColor(0xFF00FDA4, {
+      50: const Color(0xFFE0FFF1),
+      100: const Color(0xFFB3FFDE),
+      200: const Color(0xFF80FFC8),
+      300: const Color(0xFF4DFFB1),
+      400: const Color(0xFF26FFA0),
+      500: const Color(0xFF00FDA4), // Primary color
+      600: const Color(0xFF00DB94),
+      700: const Color(0xFF00B982),
+      800: const Color(0xFF009770),
+      900: const Color(0xFF006B5E),
     });
 
     return MaterialApp(
@@ -66,11 +66,21 @@ class _MySensorPageState extends State<MySensorPage> {
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/suhu_air/value');
-    _turbidityRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/kekeruhan_air/value');
-    _pHRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/kadar_air/value');
-    _waterLevelRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/tinggi_air/value');
-    _tdsRef = FirebaseDatabase.instance.reference().child('monitoringflutter/sensor/tds_air/value');
+    _sensorRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/suhu_air/value');
+    _turbidityRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/kekeruhan_air/value');
+    _pHRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/kadar_air/value');
+    _waterLevelRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/tinggi_air/value');
+    _tdsRef = FirebaseDatabase.instance
+        .reference()
+        .child('monitoringflutter/sensor/tds_air/value');
 
     sensorValue = 0.0;
     turbidityValue = 0.0;
@@ -138,27 +148,32 @@ class _MySensorPageState extends State<MySensorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Monitoring Aquaponic'),
+        backgroundColor: const Color(0xff142870),
+        title: const Text(
+          'Monitoring Aquaponic',
+          style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono'),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 30.0), // Tambahkan jarak di sini
-              Text(
-              'MONITORING SENSOR REALTIME', // Tambahkan judul "IPPL" di sini
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+              const SizedBox(height: 30.0), // Tambahkan jarak di sini
+              // Text(
+              //   'MONITORING SENSOR REALTIME', // Tambahkan judul "IPPL" di sini
+              //   style: TextStyle(
+              //     fontSize: 24,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air'),
-              buildSensorCard('KEKERUHAN AIR', turbidityValue, 'ntu', 'kekeruhan_air'),
+              buildSensorCard(
+                  'KEKERUHAN AIR', turbidityValue, 'ntu', 'kekeruhan_air'),
               buildSensorCard('KADAR AIR', pHValue, 'pH', 'kadar_air'),
-              buildSensorCard('TINGGI AIR', waterLevelValue, 'cm', 'tinggi_air'),
+              buildSensorCard(
+                  'TINGGI AIR', waterLevelValue, 'cm', 'tinggi_air'),
               buildSensorCard('TDS AIR', tdsValue, 'ppm', 'tds_air'),
-
             ],
           ),
         ),
@@ -166,97 +181,102 @@ class _MySensorPageState extends State<MySensorPage> {
     );
   }
 
-  Widget buildSensorCard(String title, double value, String unit, String sensorType) {
-  return Container(
-    width: 300.0,
-    margin: EdgeInsets.all(20.0),
-    decoration: BoxDecoration(
-      color: Colors.teal,
-      borderRadius: BorderRadius.circular(15.0),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.5),
-          spreadRadius: 2,
-          blurRadius: 7,
-          offset: Offset(0, 3),
-        ),
-      ],
-            border: Border.all(
-        color: Colors.yellow, // Warna border card
-        width: 2.0, // Lebar border
-      ),
-    ),
-    child: Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Roboto', // Menambahkan fontFamily 'Roboto'
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 20),
-          Text(
-            '${value.toStringAsFixed(1)} $unit',
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'AveriaSansLibre', // Menambahkan fontFamily 'Roboto'
-              color: Colors.white,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (sensorType == 'suhu_air') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LihatGrafikPage(),
-                  ),
-                );
-              } else if (sensorType == 'kekeruhan_air') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LihatGrafikKekeruhan(),
-                  ),
-                );
-              } else if (sensorType == 'kadar_air') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LihatGrafikKadarAir(),
-                  ),
-                );
-              } else if (sensorType == 'tinggi_air') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LihatGrafikTinggiAir(),
-                  ),
-                );
-              } else if (sensorType == 'tds_air') {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LihatGrafikTdsAir(),
-                  ),
-                );
-              }
-            },
-              style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 236, 245, 67), // Warna latar belakang tombol
-              onPrimary: Colors.black, // Warna teks pada tombol
-              side: BorderSide(
-                color: Colors.black, // Warna border tombol
-                width: 2.0, // Lebar border tombol
-              ),
-            ),
-            child: Text('LIHAT GRAFIK'),
+  Widget buildSensorCard(
+      String title, double value, String unit, String sensorType) {
+    return Container(
+      width: 300.0,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xff54DCC7),
+        borderRadius: BorderRadius.circular(15.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 20,
+            offset: const Offset(0, 3),
           ),
         ],
+        border: Border.all(
+          color: const Color(0xff142870), // Warna border card
+          width: 2, // Lebar border
+        ),
       ),
-    ),
-  );
-}
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
+                color: Color(0xff142870),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${value.toStringAsFixed(1)} $unit',
+              style: const TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
+                color: Color(0xff142870),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (sensorType == 'suhu_air') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LihatGrafikPage(),
+                    ),
+                  );
+                } else if (sensorType == 'kekeruhan_air') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LihatGrafikKekeruhan(),
+                    ),
+                  );
+                } else if (sensorType == 'kadar_air') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LihatGrafikKadarAir(),
+                    ),
+                  );
+                } else if (sensorType == 'tinggi_air') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LihatGrafikTinggiAir(),
+                    ),
+                  );
+                } else if (sensorType == 'tds_air') {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LihatGrafikTdsAir(),
+                    ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                primary: const Color(0xffFDE982), // Warna latar belakang tombol
+                onPrimary: const Color(0xff142870),
+                minimumSize: const Size(400, 30),
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10)), // Warna teks pada tombol
+                side: const BorderSide(
+                  color: Color(0xff142870), // Warna border tombol
+                  width: 2.0, // Lebar border tombol
+                ),
+              ),
+              child: const Text('LIHAT GRAFIK'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
