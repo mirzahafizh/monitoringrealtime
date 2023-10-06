@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:monitoringapp/LihatGrafikKadarAir.dart';
 import 'package:monitoringapp/LihatGrafikKekeruhan.dart';
 import 'package:monitoringapp/LihatGrafikPage.dart';
@@ -63,6 +64,39 @@ class _MySensorPageState extends State<MySensorPage> {
   late DatabaseReference _waterLevelRef;
   late DatabaseReference _tdsRef;
 
+  // Define your FlutterLocalNotificationsPlugin instance
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  // Threshold values for each sensor
+  final double suhuThreshold = 30.0; // Example threshold value
+  final double turbidityThreshold = 100.0; // Example threshold value
+  final double pHThreshold = 7.0; // Example threshold value
+  final double waterLevelThreshold = 50.0; // Example threshold value
+  final double tdsThreshold = 200.0; // Example threshold value
+
+  Future<void> showNotification(String sensorName, double sensorValue) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'Sensor Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+      icon: 'mipmap/ic_launcher', // Sesuaikan dengan nama ikon yang sesuai
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Nilai Sensor Dibawah Ketentuan',
+      '$sensorName: $sensorValue',
+      platformChannelSpecifics,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -93,6 +127,9 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           sensorValue = double.parse(data.toString());
+          if (sensorValue < suhuThreshold) {
+            showNotification('SUHU AIR', sensorValue);
+          }
         });
       }
     });
@@ -102,6 +139,9 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           turbidityValue = double.parse(data.toString());
+          if (turbidityValue < suhuThreshold) {
+            showNotification('Kekeruhan Air', turbidityValue);
+          }
         });
       }
     });
@@ -111,6 +151,9 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           pHValue = double.parse(data.toString());
+          if (pHValue < suhuThreshold) {
+            showNotification('pH Air', pHValue);
+          }
         });
       }
     });
@@ -120,6 +163,9 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           waterLevelValue = double.parse(data.toString());
+          if (waterLevelValue < suhuThreshold) {
+            showNotification('Ketinggian Air', waterLevelValue);
+          }
         });
       }
     });
@@ -129,6 +175,9 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           tdsValue = double.parse(data.toString());
+          if (tdsValue < suhuThreshold) {
+            showNotification('TDS Air', tdsValue);
+          }
         });
       }
     });
