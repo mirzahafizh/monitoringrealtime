@@ -69,11 +69,11 @@ class _MySensorPageState extends State<MySensorPage> {
       FlutterLocalNotificationsPlugin();
 
   // Threshold values for each sensor
-  final double suhuThreshold = 30.0; // Example threshold value
-  final double turbidityThreshold = 100.0; // Example threshold value
+  final double suhuThreshold = 18.0; // Example threshold value
+  final double turbidityThreshold = 7.0; // Example threshold value
   final double pHThreshold = 7.0; // Example threshold value
-  final double waterLevelThreshold = 50.0; // Example threshold value
-  final double tdsThreshold = 200.0; // Example threshold value
+  final double waterLevelThreshold = 5.0; // Example threshold value
+  final double tdsThreshold = 800.0; // Example threshold value
 
   Future<void> showNotification(String sensorName, double sensorValue) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -128,7 +128,7 @@ class _MySensorPageState extends State<MySensorPage> {
         setState(() {
           sensorValue = double.parse(data.toString());
           if (sensorValue < suhuThreshold) {
-            showNotification('SUHU AIR', sensorValue);
+            showNotification('Suhu Air', sensorValue);
           }
         });
       }
