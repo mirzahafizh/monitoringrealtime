@@ -259,7 +259,7 @@ class _MySensorPageState extends State<MySensorPage> {
             Text(
               title,
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
                 color: Color(0xff142870),
@@ -269,7 +269,7 @@ class _MySensorPageState extends State<MySensorPage> {
             Text(
               '${value.toStringAsFixed(1)} $unit',
               style: const TextStyle(
-                fontSize: 36,
+                fontSize: 30,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
                 color: Color(0xff142870),
