@@ -80,8 +80,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
               borderData: FlBorderData(
                 show: true,
                 border: Border.all(
-                  color: const Color(0xff37434d),
-                  width: 1,
+                  color: const Color(0xff142870),
+                  width: 2,
                 ),
               ),
               minX: 0,
@@ -95,7 +95,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
                     return FlSpot(entry.key.toDouble(), entry.value);
                   }).toList(),
                   isCurved: true,
-                  colors: [Colors.blue], // Warna garis grafik
+                  colors: const [Color(0xff54DCC7)], // Warna garis grafik
                   dotData: FlDotData(show: false),
                   belowBarData: BarAreaData(show: false),
                 ),
@@ -111,7 +111,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
             child: Column(
               children: [
                 Text(
-                  'Realtime Tinggi Air',
+                  'Realtime Kadar Air',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
