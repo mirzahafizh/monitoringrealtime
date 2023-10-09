@@ -124,7 +124,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
                       return ListTile(
                         title: Text('Data Ke-${reversedIndex + 1}'),
                         subtitle:
-                            Text('Kadar Air: ${sensorData[reversedIndex]}'),
+                            Text('Tinggi Air: ${sensorData[reversedIndex]}'),
                       );
                     },
                   ),
