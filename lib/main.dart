@@ -69,11 +69,11 @@ class _MySensorPageState extends State<MySensorPage> {
       FlutterLocalNotificationsPlugin();
 
   // Threshold values for each sensor
-  final double suhuThreshold = 18.0; // Example threshold value
-  final double turbidityThreshold = 7.0; // Example threshold value
-  final double pHThreshold = 7.0; // Example threshold value
-  final double waterLevelThreshold = 5.0; // Example threshold value
-  final double tdsThreshold = 800.0; // Example threshold value
+  final double suhuThreshold = 18.0;
+  final double turbidityThreshold = 7.0;
+  final double pHThreshold = 7.0;
+  final double waterLevelThreshold = 5.0;
+  final double tdsThreshold = 800.0;
 
   Future<void> showNotification(String sensorName, double sensorValue) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -83,7 +83,7 @@ class _MySensorPageState extends State<MySensorPage> {
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
-      icon: 'mipmap/ic_launcher', // Sesuaikan dengan nama ikon yang sesuai
+      icon: 'mipmap/ic_launcher',
     );
 
     const NotificationDetails platformChannelSpecifics =
