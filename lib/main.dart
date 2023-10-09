@@ -7,13 +7,35 @@ import 'package:monitoringapp/LihatGrafikKekeruhan.dart';
 import 'package:monitoringapp/LihatGrafikPage.dart';
 import 'package:monitoringapp/LihatGrafikTdsAir.dart';
 import 'package:monitoringapp/LihatGrafikTinggiAir.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (context) => ThemeProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+class ThemeProvider extends ChangeNotifier {
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  void toggleTheme() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -21,14 +43,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define your primary color
+    final _themeProvider = Provider.of<ThemeProvider>(context);
+
     MaterialColor myPrimaryColor = const MaterialColor(0xFF00FDA4, {
       50: const Color(0xFFE0FFF1),
       100: const Color(0xFFB3FFDE),
       200: const Color(0xFF80FFC8),
       300: const Color(0xFF4DFFB1),
       400: const Color(0xFF26FFA0),
-      500: const Color(0xFF00FDA4), // Primary color
+      500: const Color(0xFF00FDA4),
       600: const Color(0xFF00DB94),
       700: const Color(0xFF00B982),
       800: const Color(0xFF009770),
@@ -39,6 +62,8 @@ class MyApp extends StatelessWidget {
       title: 'Sensor Value App',
       theme: ThemeData(
         primarySwatch: myPrimaryColor,
+        brightness:
+            _themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
       home: const MySensorPage(),
     );
@@ -63,17 +88,13 @@ class _MySensorPageState extends State<MySensorPage> {
   late DatabaseReference _pHRef;
   late DatabaseReference _waterLevelRef;
   late DatabaseReference _tdsRef;
-
-  // Define your FlutterLocalNotificationsPlugin instance
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  // Threshold values for each sensor
-  final double suhuThreshold = 18.0; // Example threshold value
-  final double turbidityThreshold = 7.0; // Example threshold value
-  final double pHThreshold = 7.0; // Example threshold value
-  final double waterLevelThreshold = 5.0; // Example threshold value
-  final double tdsThreshold = 800.0; // Example threshold value
+  final double suhuThreshold = 18.0;
+  final double turbidityThreshold = 7.0;
+  final double pHThreshold = 7.0;
+  final double waterLevelThreshold = 5.0;
+  final double tdsThreshold = 800.0;
 
   Future<void> showNotification(String sensorName, double sensorValue) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -83,7 +104,7 @@ class _MySensorPageState extends State<MySensorPage> {
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
-      icon: 'mipmap/ic_launcher', // Sesuaikan dengan nama ikon yang sesuai
+      icon: 'mipmap/ic_launcher',
     );
 
     const NotificationDetails platformChannelSpecifics =
@@ -139,7 +160,7 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           turbidityValue = double.parse(data.toString());
-          if (turbidityValue < suhuThreshold) {
+          if (turbidityValue < turbidityThreshold) {
             showNotification('Kekeruhan Air', turbidityValue);
           }
         });
@@ -151,7 +172,7 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           pHValue = double.parse(data.toString());
-          if (pHValue < suhuThreshold) {
+          if (pHValue < pHThreshold) {
             showNotification('pH Air', pHValue);
           }
         });
@@ -163,7 +184,7 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           waterLevelValue = double.parse(data.toString());
-          if (waterLevelValue < suhuThreshold) {
+          if (waterLevelValue < waterLevelThreshold) {
             showNotification('Ketinggian Air', waterLevelValue);
           }
         });
@@ -175,7 +196,7 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           tdsValue = double.parse(data.toString());
-          if (tdsValue < suhuThreshold) {
+          if (tdsValue < tdsThreshold) {
             showNotification('TDS Air', tdsValue);
           }
         });
@@ -195,6 +216,8 @@ class _MySensorPageState extends State<MySensorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff142870),
@@ -202,27 +225,41 @@ class _MySensorPageState extends State<MySensorPage> {
           'Monitoring Aquaponic',
           style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono'),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              _themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              _themeProvider.toggleTheme();
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 30.0), // Tambahkan jarak di sini
-              // Text(
-              //   'MONITORING SENSOR REALTIME', // Tambahkan judul "IPPL" di sini
-              //   style: TextStyle(
-              //     fontSize: 24,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air'),
-              buildSensorCard(
-                  'KEKERUHAN AIR', turbidityValue, 'ntu', 'kekeruhan_air'),
-              buildSensorCard('KADAR AIR', pHValue, 'pH', 'kadar_air'),
-              buildSensorCard(
-                  'TINGGI AIR', waterLevelValue, 'cm', 'tinggi_air'),
-              buildSensorCard('TDS AIR', tdsValue, 'ppm', 'tds_air'),
+              const SizedBox(height: 30.0),
+              Text(
+                'MONITORING SENSOR REALTIME',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air',
+                  _themeProvider.isDarkMode),
+              buildSensorCard('KEKERUHAN AIR', turbidityValue, 'ntu',
+                  'kekeruhan_air', _themeProvider.isDarkMode),
+              buildSensorCard('KADAR AIR', pHValue, 'pH', 'kadar_air',
+                  _themeProvider.isDarkMode),
+              buildSensorCard('TINGGI AIR', waterLevelValue, 'cm', 'tinggi_air',
+                  _themeProvider.isDarkMode),
+              buildSensorCard('TDS AIR', tdsValue, 'ppm', 'tds_air',
+                  _themeProvider.isDarkMode),
             ],
           ),
         ),
@@ -230,13 +267,18 @@ class _MySensorPageState extends State<MySensorPage> {
     );
   }
 
-  Widget buildSensorCard(
-      String title, double value, String unit, String sensorType) {
+  Widget buildSensorCard(String title, double value, String unit,
+      String sensorType, bool isDarkMode) {
+    Color cardBackgroundColor =
+        isDarkMode ? Colors.black : const Color(0xff54DCC7);
+    Color borderColor = isDarkMode ? Colors.white : const Color(0xff142870);
+    Color textColor = isDarkMode ? Colors.white : const Color(0xff142870);
+
     return Container(
       width: 300.0,
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xff54DCC7),
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
@@ -247,8 +289,8 @@ class _MySensorPageState extends State<MySensorPage> {
           ),
         ],
         border: Border.all(
-          color: const Color(0xff142870), // Warna border card
-          width: 2, // Lebar border
+          color: borderColor,
+          width: 2,
         ),
       ),
       child: Padding(
@@ -258,21 +300,21 @@ class _MySensorPageState extends State<MySensorPage> {
           children: <Widget>[
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
-                color: Color(0xff142870),
+                fontFamily: 'RobotoMono',
+                color: textColor,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               '${value.toStringAsFixed(1)} $unit',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w700,
-                fontFamily: 'RobotoMono', // Menambahkan fontFamily 'RobotoMono'
-                color: Color(0xff142870),
+                fontFamily: 'RobotoMono',
+                color: textColor,
               ),
             ),
             ElevatedButton(
@@ -310,15 +352,15 @@ class _MySensorPageState extends State<MySensorPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xffFDE982), // Warna latar belakang tombol
-                onPrimary: const Color(0xff142870),
+                primary: const Color(0xffFDE982),
+                onPrimary: isDarkMode ? Colors.black : const Color(0xff142870),
                 minimumSize: const Size(400, 30),
                 shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10)), // Warna teks pada tombol
-                side: const BorderSide(
-                  color: Color(0xff142870), // Warna border tombol
-                  width: 2.0, // Lebar border tombol
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                side: BorderSide(
+                  color: borderColor,
+                  width: 2.0,
                 ),
               ),
               child: const Text('LIHAT GRAFIK'),
