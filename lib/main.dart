@@ -121,21 +121,11 @@ class _MySensorPageState extends State<MySensorPage> {
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/suhu_air/value');
-    _turbidityRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/kekeruhan_air/value');
-    _pHRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/kadar_air/value');
-    _waterLevelRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/tinggi_air/value');
-    _tdsRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/tds_air/value');
+    _sensorRef = FirebaseDatabase.instance.reference().child('Suhu');
+    _turbidityRef = FirebaseDatabase.instance.reference().child('Turbidity');
+    _pHRef = FirebaseDatabase.instance.reference().child('pH');
+    _waterLevelRef = FirebaseDatabase.instance.reference().child('Jarak');
+    _tdsRef = FirebaseDatabase.instance.reference().child('TDS');
 
     sensorValue = 0.0;
     turbidityValue = 0.0;

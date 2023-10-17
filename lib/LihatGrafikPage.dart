@@ -48,9 +48,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance
-        .reference()
-        .child('monitoringflutter/sensor/suhu_air/value');
+    _sensorRef = FirebaseDatabase.instance.reference().child('Suhu');
 
     // Tambahkan listener untuk memantau perubahan nilai sensor di Firebase
     _sensorRef.onValue.listen((event) {

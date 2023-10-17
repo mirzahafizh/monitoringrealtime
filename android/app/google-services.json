@@ -1,33 +1,14 @@
 {
   "project_info": {
-    "project_number": "1091752419535",
-    "firebase_url": "https://monitoringflutter-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "monitoringflutter",
-    "storage_bucket": "monitoringflutter.appspot.com"
+    "project_number": "133746542095",
+    "firebase_url": "https://akuaponikk-default-rtdb.firebaseio.com",
+    "project_id": "akuaponikk",
+    "storage_bucket": "akuaponikk.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1091752419535:android:c6d2d18f952b84911717ba",
-        "android_client_info": {
-          "package_name": "com.example.aquaponic"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCsflPYL7AFSglsCmw6GtP9OQVf0151UME"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1091752419535:android:0402f2dda31168db1717ba",
+        "mobilesdk_app_id": "1:133746542095:android:59b7f67d270403bcf0857a",
         "android_client_info": {
           "package_name": "com.example.monitoringapp"
         }
@@ -35,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCsflPYL7AFSglsCmw6GtP9OQVf0151UME"
+          "current_key": "AIzaSyDkfc1YHcsAp2EhFGsQje7IwNfW-1LOJS0"
         }
       ],
       "services": {

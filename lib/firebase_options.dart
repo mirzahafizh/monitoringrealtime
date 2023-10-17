@@ -44,42 +44,41 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDnZwzbMqd8BFpTfCZRgDLNs4zmTm9Vk7I',
-    appId: '1:1091752419535:web:91dd2956d6e068b01717ba',
-    messagingSenderId: '1091752419535',
-    projectId: 'monitoringflutter',
-    authDomain: 'monitoringflutter.firebaseapp.com',
-    databaseURL: 'https://monitoringflutter-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'monitoringflutter.appspot.com',
-    measurementId: 'G-9ZE5WPTBVB',
+    apiKey: 'AIzaSyAdSvXbhXD6N_Rv62zI6zUrxCcR3WOS4G8',
+    appId: '1:133746542095:web:afe63e165711c2faf0857a',
+    messagingSenderId: '133746542095',
+    projectId: 'akuaponikk',
+    authDomain: 'akuaponikk.firebaseapp.com',
+    databaseURL: 'https://akuaponikk-default-rtdb.firebaseio.com',
+    storageBucket: 'akuaponikk.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCsflPYL7AFSglsCmw6GtP9OQVf0151UME',
-    appId: '1:1091752419535:android:0402f2dda31168db1717ba',
-    messagingSenderId: '1091752419535',
-    projectId: 'monitoringflutter',
-    databaseURL: 'https://monitoringflutter-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'monitoringflutter.appspot.com',
+    apiKey: 'AIzaSyDkfc1YHcsAp2EhFGsQje7IwNfW-1LOJS0',
+    appId: '1:133746542095:android:59b7f67d270403bcf0857a',
+    messagingSenderId: '133746542095',
+    projectId: 'akuaponikk',
+    databaseURL: 'https://akuaponikk-default-rtdb.firebaseio.com',
+    storageBucket: 'akuaponikk.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA1AAprgz_N2VMk_Sj0FZ0MlGJdxqC0ZMA',
-    appId: '1:1091752419535:ios:837318ee490f3c2f1717ba',
-    messagingSenderId: '1091752419535',
-    projectId: 'monitoringflutter',
-    databaseURL: 'https://monitoringflutter-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'monitoringflutter.appspot.com',
+    apiKey: 'AIzaSyC-3CSMtE_n_dvutpFmQMS_k1nIN2IJCRo',
+    appId: '1:133746542095:ios:97e965ec52ce4f7ef0857a',
+    messagingSenderId: '133746542095',
+    projectId: 'akuaponikk',
+    databaseURL: 'https://akuaponikk-default-rtdb.firebaseio.com',
+    storageBucket: 'akuaponikk.appspot.com',
     iosBundleId: 'com.example.monitoringapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA1AAprgz_N2VMk_Sj0FZ0MlGJdxqC0ZMA',
-    appId: '1:1091752419535:ios:e8a9ce4664169caf1717ba',
-    messagingSenderId: '1091752419535',
-    projectId: 'monitoringflutter',
-    databaseURL: 'https://monitoringflutter-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'monitoringflutter.appspot.com',
+    apiKey: 'AIzaSyC-3CSMtE_n_dvutpFmQMS_k1nIN2IJCRo',
+    appId: '1:133746542095:ios:0650eb81f32dcc4bf0857a',
+    messagingSenderId: '133746542095',
+    projectId: 'akuaponikk',
+    databaseURL: 'https://akuaponikk-default-rtdb.firebaseio.com',
+    storageBucket: 'akuaponikk.appspot.com',
     iosBundleId: 'com.example.monitoringapp.RunnerTests',
   );
 }
