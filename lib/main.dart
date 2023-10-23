@@ -368,7 +368,9 @@ class _MySensorPageState extends State<MySensorPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xffFDE982),
+                primary: isDarkMode
+                    ? const Color(0xff54DCC7)
+                    : const Color(0xffFDE982),
                 onPrimary: isDarkMode ? Colors.black : const Color(0xff142870),
                 minimumSize: const Size(400, 30),
                 shape: RoundedRectangleBorder(

@@ -159,20 +159,21 @@ class _RealtimeChartState extends State<RealtimeChart> {
         ElevatedButton(
           onPressed: () {
             resetGrafik();
-            Navigator.of(context).push(
+            Navigator.pushReplacement(
+              context,
               MaterialPageRoute(
                 builder: (context) => LihatGrafikKadarAir(),
               ),
             );
           },
           style: ElevatedButton.styleFrom(
-            primary: Color(0xff54DCC7),
+            primary: const Color(0xff54DCC7),
             onPrimary: Colors.white,
             minimumSize: const Size(280, 30),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            side: BorderSide(
+            side: const BorderSide(
               color: Color(0xff54DCC7),
               width: 2.0,
             ),
