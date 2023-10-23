@@ -90,11 +90,17 @@ class _MySensorPageState extends State<MySensorPage> {
   late DatabaseReference _tdsRef;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  final double suhuThreshold = 18.0;
-  final double turbidityThreshold = 7.0;
-  final double pHThreshold = 7.0;
-  final double waterLevelThreshold = 5.0;
-  final double tdsThreshold = 800.0;
+  final double suhuThreshold = 25.0;
+  // final double turbidityThreshold = 7.0;
+  final double pHThreshold = 5.0;
+  final double waterLevelThreshold = 25.0;
+  final double tdsThreshold = 700.0;
+
+  final double suhuThreshold2 = 32.0;
+  // final double turbidityThreshold2 = 7.0;
+  final double pHThreshold2 = 8.0;
+  final double waterLevelThreshold2 = 65.0;
+  final double tdsThreshold2 = 1500.0;
 
   Future<void> showNotification(String sensorName, double sensorValue) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
@@ -113,6 +119,28 @@ class _MySensorPageState extends State<MySensorPage> {
     await flutterLocalNotificationsPlugin.show(
       0,
       'Nilai Sensor Dibawah Ketentuan',
+      '$sensorName: $sensorValue',
+      platformChannelSpecifics,
+    );
+  }
+
+  Future<void> showNotification2(String sensorName, double sensorValue) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'Sensor Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+      icon: 'mipmap/ic_launcher',
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Nilai Sensor melebihi Ketentuan',
       '$sensorName: $sensorValue',
       platformChannelSpecifics,
     );
@@ -140,6 +168,8 @@ class _MySensorPageState extends State<MySensorPage> {
           sensorValue = double.parse(data.toString());
           if (sensorValue < suhuThreshold) {
             showNotification('Suhu Air', sensorValue);
+          } else if (sensorValue > suhuThreshold2) {
+            showNotification2('Suhu Air', sensorValue);
           }
         });
       }
@@ -150,9 +180,6 @@ class _MySensorPageState extends State<MySensorPage> {
       if (data != null) {
         setState(() {
           turbidityValue = double.parse(data.toString());
-          if (turbidityValue < turbidityThreshold) {
-            showNotification('Kekeruhan Air', turbidityValue);
-          }
         });
       }
     });
@@ -164,6 +191,8 @@ class _MySensorPageState extends State<MySensorPage> {
           pHValue = double.parse(data.toString());
           if (pHValue < pHThreshold) {
             showNotification('pH Air', pHValue);
+          } else if (pHValue > pHThreshold2) {
+            showNotification2('pH Air', pHValue);
           }
         });
       }
@@ -176,6 +205,8 @@ class _MySensorPageState extends State<MySensorPage> {
           waterLevelValue = double.parse(data.toString());
           if (waterLevelValue < waterLevelThreshold) {
             showNotification('Ketinggian Air', waterLevelValue);
+          } else if (waterLevelValue > waterLevelThreshold2) {
+            showNotification2('Ketinggian Air', waterLevelValue);
           }
         });
       }
@@ -188,6 +219,8 @@ class _MySensorPageState extends State<MySensorPage> {
           tdsValue = double.parse(data.toString());
           if (tdsValue < tdsThreshold) {
             showNotification('TDS Air', tdsValue);
+          } else if (tdsValue > tdsThreshold2) {
+            showNotification2('TDS Air', tdsValue);
           }
         });
       }
@@ -232,14 +265,7 @@ class _MySensorPageState extends State<MySensorPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 30.0),
-              Text(
-                'MONITORING SENSOR REALTIME',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              const SizedBox(height: 10.0),
               buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air',
                   _themeProvider.isDarkMode),
               buildSensorCard('KEKERUHAN AIR', turbidityValue, 'ntu',
@@ -342,7 +368,9 @@ class _MySensorPageState extends State<MySensorPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xffFDE982),
+                primary: isDarkMode
+                    ? const Color(0xff54DCC7)
+                    : const Color(0xffFDE982),
                 onPrimary: isDarkMode ? Colors.black : const Color(0xff142870),
                 minimumSize: const Size(400, 30),
                 shape: RoundedRectangleBorder(
