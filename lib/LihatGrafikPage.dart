@@ -139,7 +139,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 200,
+                  height: 150,
                   child: ListView.builder(
                     itemCount: sensorData.length > 5 ? 5 : sensorData.length,
                     itemBuilder: (context, index) {

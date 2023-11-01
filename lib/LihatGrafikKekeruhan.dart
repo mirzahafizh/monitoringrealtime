@@ -59,7 +59,6 @@ class _RealtimeChartState extends State<RealtimeChart> {
     _grafikRef.onValue.listen((event) {
       final data = event.snapshot.value;
       if (data != null && !initialized) {
-        // Tambahkan kondisi !initialized
         if (data is List) {
           for (int i = 0; i < data.length; i++) {
             final value = data[i];
@@ -72,7 +71,6 @@ class _RealtimeChartState extends State<RealtimeChart> {
               });
             }
           }
-          // Set initialized menjadi true setelah mendapatkan data pertama kali
           initialized = true;
         }
       }
@@ -130,30 +128,18 @@ class _RealtimeChartState extends State<RealtimeChart> {
         Card(
           elevation: 4.0,
           margin: const EdgeInsets.all(16.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Realtime Kekeruhan Air',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: sensorData.length > 5 ? 5 : sensorData.length,
-                    itemBuilder: (context, index) {
-                      final reversedIndex = sensorData.length - index - 1;
-                      return ListTile(
-                        title: Text('Data Ke - ${reversedIndex + 1}'),
-                        subtitle: Text(
-                            'Kekeruhan Air: ${sensorData[reversedIndex].y}'),
-                      );
-                    },
-                  ),
-                ),
-              ],
+          child: SizedBox(
+            height: 200, // Set tinggi ListView
+            child: ListView.builder(
+              itemCount: sensorData.length > 5 ? 5 : sensorData.length,
+              itemBuilder: (context, index) {
+                final reversedIndex = sensorData.length - index - 1;
+                return ListTile(
+                  title: Text('Data Ke - ${reversedIndex + 1}'),
+                  subtitle:
+                      Text('Kekeruhan Air: ${sensorData[reversedIndex].y}'),
+                );
+              },
             ),
           ),
         ),

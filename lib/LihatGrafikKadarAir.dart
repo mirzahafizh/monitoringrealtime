@@ -139,8 +139,9 @@ class _RealtimeChartState extends State<RealtimeChart> {
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 200,
+                  height: 150, // Atur tinggi sesuai kebutuhan Anda
                   child: ListView.builder(
+                    shrinkWrap: true, // Tambahkan ini
                     itemCount: sensorData.length > 5 ? 5 : sensorData.length,
                     itemBuilder: (context, index) {
                       final reversedIndex = sensorData.length - index - 1;
