@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LihatGrafikPage extends StatelessWidget {
+  final ThemeData theme;
+
+  LihatGrafikPage({required this.theme});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +19,7 @@ class LihatGrafikPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: const Color(0xff142870),
+        backgroundColor: theme.colorScheme.background,
         title: const Text('Grafik Suhu Air',
             style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
       ),
@@ -162,7 +165,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LihatGrafikPage(),
+                builder: (context) => LihatGrafikPage(theme: Theme.of(context)),
               ),
             );
           },

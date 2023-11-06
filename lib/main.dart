@@ -45,17 +45,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final _themeProvider = Provider.of<ThemeProvider>(context);
 
-    MaterialColor myPrimaryColor = const MaterialColor(0xFF00FDA4, {
-      50: const Color(0xFFE0FFF1),
-      100: const Color(0xFFB3FFDE),
-      200: const Color(0xFF80FFC8),
-      300: const Color(0xFF4DFFB1),
-      400: const Color(0xFF26FFA0),
-      500: const Color(0xFF00FDA4),
-      600: const Color(0xFF00DB94),
-      700: const Color(0xFF00B982),
-      800: const Color(0xFF009770),
-      900: const Color(0xFF006B5E),
+    MaterialColor myPrimaryColor = const MaterialColor(0xff142870, {
+      50: Color(0xFF142870),
+      100: Color(0xFF142870),
+      200: Color(0xFF142870),
+      300: Color(0xFF142870),
+      400: Color(0xff142870),
+      500: Color(0xff142870),
+      600: Color(0xFF142870),
+      700: Color(0xFF142870),
+      800: Color(0xFF142870),
+      900: Color(0xFF142870),
     });
 
     return MaterialApp(
@@ -96,13 +96,14 @@ class _MySensorPageState extends State<MySensorPage> {
   final double waterLevelThreshold = 25.0;
   final double tdsThreshold = 700.0;
 
-  final double suhuThreshold2 = 32.0;
+  final double suhuThreshold2 = 36.0;
   // final double turbidityThreshold2 = 7.0;
   final double pHThreshold2 = 8.0;
   final double waterLevelThreshold2 = 65.0;
   final double tdsThreshold2 = 1500.0;
 
-  Future<void> showNotification(String sensorName, double sensorValue) async {
+  Future<void> showNotification(String sensorName, double sensorValue,
+      String satuan, String messageSensor) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'your_channel_id',
@@ -118,30 +119,8 @@ class _MySensorPageState extends State<MySensorPage> {
 
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Nilai Sensor Dibawah Ketentuan',
-      '$sensorName: $sensorValue',
-      platformChannelSpecifics,
-    );
-  }
-
-  Future<void> showNotification2(String sensorName, double sensorValue) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'your_channel_id',
-      'Sensor Notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-      showWhen: false,
-      icon: 'mipmap/ic_launcher',
-    );
-
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Nilai Sensor melebihi Ketentuan',
-      '$sensorName: $sensorValue',
+      messageSensor,
+      '$sensorName: $sensorValue $satuan',
       platformChannelSpecifics,
     );
   }
@@ -167,9 +146,11 @@ class _MySensorPageState extends State<MySensorPage> {
         setState(() {
           sensorValue = double.parse(data.toString());
           if (sensorValue < suhuThreshold) {
-            showNotification('Suhu Air', sensorValue);
+            showNotification(
+                'Suhu Air', sensorValue, '°C', 'Suhu Air Terlalu Dingin!');
           } else if (sensorValue > suhuThreshold2) {
-            showNotification2('Suhu Air', sensorValue);
+            showNotification(
+                'Suhu Air', sensorValue, '°C', 'Suhu Air Terlalu Panas!');
           }
         });
       }
@@ -190,9 +171,11 @@ class _MySensorPageState extends State<MySensorPage> {
         setState(() {
           pHValue = double.parse(data.toString());
           if (pHValue < pHThreshold) {
-            showNotification('pH Air', pHValue);
+            showNotification(
+                'pH Air', pHValue, 'pH', 'Kadar Air kritis terdeteksi!');
           } else if (pHValue > pHThreshold2) {
-            showNotification2('pH Air', pHValue);
+            showNotification('pH Air', pHValue, 'pH',
+                'Kadar Air di luar batas normal, Periksa Segera!');
           }
         });
       }
@@ -204,9 +187,11 @@ class _MySensorPageState extends State<MySensorPage> {
         setState(() {
           waterLevelValue = double.parse(data.toString());
           if (waterLevelValue < waterLevelThreshold) {
-            showNotification('Ketinggian Air', waterLevelValue);
+            showNotification(
+                'Ketinggian Air', waterLevelValue, 'cm', 'Air hampir habis!');
           } else if (waterLevelValue > waterLevelThreshold2) {
-            showNotification2('Ketinggian Air', waterLevelValue);
+            showNotification('Ketinggian Air', waterLevelValue, 'cm',
+                'Air akan segera penuh! matikan sumber air!');
           }
         });
       }
@@ -218,9 +203,11 @@ class _MySensorPageState extends State<MySensorPage> {
         setState(() {
           tdsValue = double.parse(data.toString());
           if (tdsValue < tdsThreshold) {
-            showNotification('TDS Air', tdsValue);
+            showNotification(
+                'TDS Air', tdsValue, 'ppm', 'Kualitas air kritis terdeteksi!');
           } else if (tdsValue > tdsThreshold2) {
-            showNotification2('TDS Air', tdsValue);
+            showNotification('TDS Air', tdsValue, 'ppm',
+                'Kualitas Air di luar batas normal, Periksa Segera!');
           }
         });
       }
@@ -243,7 +230,9 @@ class _MySensorPageState extends State<MySensorPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff142870),
+        backgroundColor: _themeProvider.isDarkMode
+            ? Color.fromARGB(255, 99, 99, 99)
+            : const Color(0xff142870),
         title: const Text(
           'Monitoring Aquaponic',
           style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono'),
@@ -286,7 +275,7 @@ class _MySensorPageState extends State<MySensorPage> {
   Widget buildSensorCard(String title, double value, String unit,
       String sensorType, bool isDarkMode) {
     Color cardBackgroundColor =
-        isDarkMode ? Colors.black : const Color(0xff54DCC7);
+        isDarkMode ? Color.fromARGB(255, 72, 72, 72) : const Color(0xff54DCC7);
     Color borderColor = isDarkMode ? Colors.white : const Color(0xff142870);
     Color textColor = isDarkMode ? Colors.white : const Color(0xff142870);
 
@@ -338,31 +327,36 @@ class _MySensorPageState extends State<MySensorPage> {
                 if (sensorType == 'suhu_air') {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LihatGrafikPage(),
+                      builder: (context) =>
+                          LihatGrafikPage(theme: Theme.of(context)),
                     ),
                   );
                 } else if (sensorType == 'kekeruhan_air') {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LihatGrafikKekeruhan(),
+                      builder: (context) =>
+                          LihatGrafikKekeruhan(theme: Theme.of(context)),
                     ),
                   );
                 } else if (sensorType == 'kadar_air') {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LihatGrafikKadarAir(),
+                      builder: (context) =>
+                          LihatGrafikKadarAir(theme: Theme.of(context)),
                     ),
                   );
                 } else if (sensorType == 'tinggi_air') {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LihatGrafikTinggiAir(),
+                      builder: (context) =>
+                          LihatGrafikTinggiAir(theme: Theme.of(context)),
                     ),
                   );
                 } else if (sensorType == 'tds_air') {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LihatGrafikTdsAir(),
+                      builder: (context) =>
+                          LihatGrafikTdsAir(theme: Theme.of(context)),
                     ),
                   );
                 }
