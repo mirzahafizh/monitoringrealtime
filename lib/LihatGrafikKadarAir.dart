@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LihatGrafikKadarAir extends StatelessWidget {
+  final ThemeData theme;
+
+  LihatGrafikKadarAir({required this.theme});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +20,7 @@ class LihatGrafikKadarAir extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: const Color(0xff142870),
+        backgroundColor: theme.colorScheme.background,
         title: const Text('Grafik Kadar Air',
             style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
       ),
@@ -163,7 +167,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LihatGrafikKadarAir(),
+                builder: (context) =>
+                    LihatGrafikKadarAir(theme: Theme.of(context)),
               ),
             );
           },
