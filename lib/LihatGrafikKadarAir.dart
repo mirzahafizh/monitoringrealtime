@@ -15,14 +15,23 @@ class LihatGrafikKadarAir extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.navigate_before_rounded,
-            color: Colors.white,
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
         backgroundColor: theme.colorScheme.background,
-        title: const Text('Grafik Kadar Air',
-            style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
+        title: Text(
+          'Grafik Kadar Air',
+          style: TextStyle(
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            fontFamily: 'RobotoMono',
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -56,7 +65,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
   void initState() {
     super.initState();
 
-    _sensorRef = FirebaseDatabase.instance.reference().child('pH');
+    _sensorRef = FirebaseDatabase.instance.reference().child('pHair');
     _grafikRef = FirebaseDatabase.instance.reference().child('Grafik/ph');
 
     _grafikRef.onValue.listen((event) {

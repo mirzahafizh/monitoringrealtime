@@ -14,14 +14,23 @@ class LihatGrafikTdsAir extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.navigate_before_rounded,
-            color: Colors.white,
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
         backgroundColor: theme.colorScheme.background,
-        title: const Text('Grafik TDS Air',
-            style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
+        title: Text(
+          'Grafik TDS Air',
+          style: TextStyle(
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            fontFamily: 'RobotoMono',
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,7 +64,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
   void initState() {
     super.initState();
 
-    _sensorRef = FirebaseDatabase.instance.reference().child('TDS');
+    _sensorRef = FirebaseDatabase.instance.reference().child('ppmair');
     _grafikRef = FirebaseDatabase.instance.reference().child('Grafik/tds');
 
     _grafikRef.onValue.listen((event) {
@@ -165,7 +174,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LihatGrafikTdsAir(theme: Theme.of(context)),
+                builder: (context) =>
+                    LihatGrafikTdsAir(theme: Theme.of(context)),
               ),
             );
           },

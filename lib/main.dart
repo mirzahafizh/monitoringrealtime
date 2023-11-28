@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
     });
 
     return MaterialApp(
-      title: 'Sensor Value App',
+      title: 'Aquaponic',
       theme: ThemeData(
         primarySwatch: myPrimaryColor,
         brightness:
@@ -128,11 +128,11 @@ class _MySensorPageState extends State<MySensorPage> {
   @override
   void initState() {
     super.initState();
-    _sensorRef = FirebaseDatabase.instance.reference().child('Suhu');
-    _turbidityRef = FirebaseDatabase.instance.reference().child('Turbidity');
-    _pHRef = FirebaseDatabase.instance.reference().child('pH');
-    _waterLevelRef = FirebaseDatabase.instance.reference().child('Jarak');
-    _tdsRef = FirebaseDatabase.instance.reference().child('TDS');
+    _sensorRef = FirebaseDatabase.instance.reference().child('suhuair');
+    _turbidityRef = FirebaseDatabase.instance.reference().child('kekeruhanair');
+    _pHRef = FirebaseDatabase.instance.reference().child('pHair');
+    _waterLevelRef = FirebaseDatabase.instance.reference().child('tinggiair');
+    _tdsRef = FirebaseDatabase.instance.reference().child('ppmair');
 
     sensorValue = 0.0;
     turbidityValue = 0.0;
@@ -254,7 +254,7 @@ class _MySensorPageState extends State<MySensorPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 15.0),
               buildSensorCard('SUHU AIR', sensorValue, '°C', 'suhu_air',
                   _themeProvider.isDarkMode),
               buildSensorCard('KEKERUHAN AIR', turbidityValue, 'ntu',
@@ -265,6 +265,7 @@ class _MySensorPageState extends State<MySensorPage> {
                   _themeProvider.isDarkMode),
               buildSensorCard('TDS AIR', tdsValue, 'ppm', 'tds_air',
                   _themeProvider.isDarkMode),
+              SizedBox(height: 15.0),
             ],
           ),
         ),

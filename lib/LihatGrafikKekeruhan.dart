@@ -6,7 +6,7 @@ class LihatGrafikKekeruhan extends StatelessWidget {
   final ThemeData theme;
 
   LihatGrafikKekeruhan({required this.theme});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,14 +15,23 @@ class LihatGrafikKekeruhan extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.navigate_before_rounded,
-            color: Colors.white,
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
         ),
         backgroundColor: theme.colorScheme.background,
-        title: const Text('Grafik Kekeruhan Air',
-            style: TextStyle(color: Colors.white, fontFamily: 'RobotoMono')),
+        title: Text(
+          'Grafik Kekeruhan Air',
+          style: TextStyle(
+            color: theme.brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            fontFamily: 'RobotoMono',
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -56,7 +65,7 @@ class _RealtimeChartState extends State<RealtimeChart> {
   void initState() {
     super.initState();
 
-    _sensorRef = FirebaseDatabase.instance.reference().child('Turbidity');
+    _sensorRef = FirebaseDatabase.instance.reference().child('kekeruhanair');
     _grafikRef =
         FirebaseDatabase.instance.reference().child('Grafik/kekeruhan');
 
@@ -153,7 +162,8 @@ class _RealtimeChartState extends State<RealtimeChart> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LihatGrafikKekeruhan(theme: Theme.of(context)),
+                builder: (context) =>
+                    LihatGrafikKekeruhan(theme: Theme.of(context)),
               ),
             );
           },
